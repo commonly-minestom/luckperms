@@ -77,6 +77,7 @@ public interface Platform {
         FABRIC("Fabric"),
         NEOFORGE("NeoForge"),
         FORGE("Forge"),
+        MINESTOM("Minestom"),
         STANDALONE("Standalone"),
         HYTALE("Hytale");
 

@@ -1,0 +1,54 @@
+plugins {
+    alias(libs.plugins.shadow)
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 25
+}
+
+group = 'org.comminestom'
+
+dependencies {
+    implementation project(':common')
+    implementation "org.comminestom:conduit-api:1.0.0"
+    implementation "org.comminestom:conduit-impl:1.0.0"
+    implementation "net.minestom:minestom:2026.10.07-26.2"
+
+    compileOnly "org.slf4j:slf4j-api:1.7.30"
+    implementation "org.yaml:snakeyaml:1.33"
+    implementation "com.h2database:h2:2.1.214"
+    implementation "com.zaxxer:HikariCP:6.3.0"
+}
+
+repositories {
+    maven { url "https://minestom.quietterminal.com/releases" }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = project.group.toString()
+            artifactId = 'luckperms'
+            version = project.version.toString()
+            from components.shadow
+        }
+    }
+    repositories {
+        maven {
+            name = "quietterminalReleases"
+            url = uri("https://minestom.quietterminal.com/releases")
+            credentials {
+                username = project.findProperty("QUIETTERMINAL_USER") ?: System.getenv("QUIETTERMINAL_USER")
+                password = project.findProperty("QUIETTERMINAL_PASS") ?: System.getenv("QUIETTERMINAL_PASS")
+            }
+        }
+        maven {
+            name = "quietterminalSnapshots"
+            url = uri("https://minestom.quietterminal.com/snapshots")
+            credentials {
+                username = project.findProperty("QUIETTERMINAL_USER") ?: System.getenv("QUIETTERMINAL_USER")
+                password = project.findProperty("QUIETTERMINAL_PASS") ?: System.getenv("QUIETTERMINAL_PASS")
+            }
+        }
+    }
+}
